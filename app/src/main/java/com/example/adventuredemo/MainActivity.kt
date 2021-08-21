@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         mainViewModel.getProductsAndBanners()
-        mainViewModel.getProductAndBanner.observe(this) { response ->
+        mainViewModel.productAndBanner.observe(this) { response ->
             when (response) {
                 is Resource.Success -> {
 //                    hideProgressBar()
