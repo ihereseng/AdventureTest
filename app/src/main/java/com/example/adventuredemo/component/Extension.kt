@@ -4,11 +4,19 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.View
 import android.widget.ImageView
+import androidx.constraintlayout.widget.Group
 import com.bumptech.glide.Glide
 
 fun ImageView.loadImageUrl(url: String?) {
     Glide.with(this.context).load(url).into(this)
+}
+
+fun Group.setAllOnClickListener(listener: View.OnClickListener?) {
+    referencedIds.forEach { id ->
+        rootView.findViewById<View>(id).setOnClickListener(listener)
+    }
 }
 
 fun isNetworkAvailable(context: Context?): Boolean {

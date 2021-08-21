@@ -3,6 +3,7 @@ package com.example.adventuredemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -22,7 +23,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        showProgressBar()
+        binding.toolBar.isOnBackVisible = false
+        binding.toolBar.toolbarTitle = "Mobile Developer"
         val mockProduct = listOf(
             Product(
                 "iPhone 11 Pro",
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.productAndBanner.observe(this) { response ->
             when (response) {
                 is Resource.Success -> {
-//                    hideProgressBar()
+                    hideProgressBar()
                     response.data?.let {
                         Log.i("MYTAG", "came here ${it}")
                         it.banners?.let { it1 -> setUpBanner(it1) }
@@ -74,19 +77,23 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 is Resource.Error -> {
-//                    hideProgressBar()
+                    hideProgressBar()
                     response.message?.let {
                         Toast.makeText(this, "An error occurred : $it", Toast.LENGTH_LONG)
                             .show()
                     }
                 }
                 is Resource.Loading -> {
-//                    showProgressBar()
+                    showProgressBar()
                 }
             }
         }
 
     }
+
+    private fun showProgressBar() = run { binding.progressBar.visibility = View.VISIBLE }
+    private fun hideProgressBar() = run { binding.progressBar.visibility = View.GONE }
+
 
     private fun setUpBanner(banners: List<String>) {
         binding.viewPager.adapter = BannerAdapter(this, banners)
