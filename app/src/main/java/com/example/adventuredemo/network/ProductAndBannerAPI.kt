@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ProductAndBannerAPI {
     @GET("products")
-    suspend fun getProductAndBanner(): Response<ProductAndBannerRes>
+    suspend fun getProductAndBanner(): Response<ProductAndBannerResponse>
 }

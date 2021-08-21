@@ -13,10 +13,10 @@ import com.example.adventuredemo.databinding.FragmentBannerBinding
 class BannerFragment : Fragment() {
     private lateinit var binding: FragmentBannerBinding
     companion object {
-        private const val ARG_POSITION = "ARG_POSITION"
+        private const val ARG_BANNER = "ARG_BANNER"
 
-        fun getInstance(position: Int) = BannerFragment().apply {
-            arguments = bundleOf(ARG_POSITION to position)
+        fun getInstance(banner: String) = BannerFragment().apply {
+            arguments = bundleOf(ARG_BANNER to banner)
         }
     }
     override fun onCreateView(
@@ -30,9 +30,9 @@ class BannerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val position = requireArguments().getInt(ARG_POSITION)
+        val imageUrl = requireArguments().getString(ARG_BANNER)
         //get image from viewmodel main ac
-        val imageUrl = "https://locate.apple.com/resources/images/widgets/AppleAuthorizedResellers_long.png"
+//        val imageUrl = "https://locate.apple.com/resources/images/widgets/AppleAuthorizedResellers_long.png"
         binding.image.loadImageUrl(imageUrl)
     }
 }

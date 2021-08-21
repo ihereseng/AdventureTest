@@ -2,6 +2,8 @@ package com.example.adventuredemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,18 +11,17 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.adventuredemo.component.ProductAdapter
 import com.example.adventuredemo.databinding.ActivityMainBinding
 import com.example.adventuredemo.network.Product
+import com.example.adventuredemo.util.Resource
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val mainViewModel: MainViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.viewPager.adapter = BannerAdapter(this)
-
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-        }.attach()
 
         val mockProduct = listOf(
             Product(
@@ -59,8 +60,43 @@ class MainActivity : AppCompatActivity() {
                 "https://private-18a32-iosadv.apiary-mock.com/applewatch"
             )
         )
+        mainViewModel.getProductsAndBanners()
+        mainViewModel.getProductAndBanner.observe(this) { response ->
+            when (response) {
+                is Resource.Success -> {
+//                    hideProgressBar()
+                    response.data?.let {
+                        Log.i("MYTAG", "came here ${it}")
+                        it.banners?.let { it1 -> setUpBanner(it1) }
+                        it.products?.let { it1 ->
+                            setUpAdapter(it1)
+                        }
+                    }
+                }
+                is Resource.Error -> {
+//                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(this, "An error occurred : $it", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+                is Resource.Loading -> {
+//                    showProgressBar()
+                }
+            }
+        }
 
-        val recyclerAdapter = ProductAdapter(mockProduct)
+    }
+
+    private fun setUpBanner(banners: List<String>) {
+        binding.viewPager.adapter = BannerAdapter(this, banners)
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        }.attach()
+    }
+
+    private fun setUpAdapter(productList: List<Product>) {
+        val recyclerAdapter = ProductAdapter(productList)
 
         with(binding.recyclerView) {
             adapter = recyclerAdapter
@@ -72,11 +108,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private inner class BannerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = 3
+    private inner class BannerAdapter(fa: FragmentActivity, private val banners: List<String>) :
+        FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = banners.size
 
         override fun createFragment(position: Int): Fragment {
-            return BannerFragment.getInstance(position)
+            return BannerFragment.getInstance(banners[position])
         }
     }
 }
