@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/layout/activity_description.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_banner.xml" value="0.20625" />
         <entry key="app/src/main/res/layout/view_holder.xml" value="0.5" />
