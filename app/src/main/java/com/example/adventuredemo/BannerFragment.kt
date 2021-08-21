@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
+import com.example.adventuredemo.component.loadImageUrl
 import com.example.adventuredemo.databinding.FragmentBannerBinding
 
 class BannerFragment : Fragment() {
@@ -32,6 +33,6 @@ class BannerFragment : Fragment() {
         val position = requireArguments().getInt(ARG_POSITION)
         //get image from viewmodel main ac
         val imageUrl = "https://locate.apple.com/resources/images/widgets/AppleAuthorizedResellers_long.png"
-        Glide.with(requireContext()).load(imageUrl).into(binding.image)
+        binding.image.loadImageUrl(imageUrl)
     }
 }
