@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_banner.xml" value="0.20625" />
         <entry key="app/src/main/res/layout/view_holder.xml" value="0.25" />
       </map>
     </option>
